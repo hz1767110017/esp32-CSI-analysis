@@ -123,27 +123,28 @@ def normalize(csi_array):
     return array_csi_normalized
 
 
-def decomp(array_csi_modulus):
+def decompose(array_csi_modulus, dimensions):
     """decomposition
 
     :param array_csi_modulus: normalized csi amplitude array
+    :param dimensions: the shape you decompose the data
     :return:
     """
-    pca = decomposition.FastICA(n_components=3)  # FA, FICA, MBDL
+    pca = decomposition.FastICA(n_components=dimensions)  # FA, FICA, MBDL
     CSI = pca.fit_transform(array_csi_modulus)
     CSI = normalize(CSI)
     return CSI
 
 
 def visualize(array_csi_modulus, color):
-    """ visualize amplitudes in 3_Dimension
+    """ visualize amplitudes in 3_Dimensions
 
     :param array_csi_modulus: normalized csi amplitude array
     :param color: the color of scatters
     :return: a 3_D figure on matplotlib
     """
 
-    CSI = decomp(array_csi_modulus)
+    CSI = decompose(array_csi_modulus, 3)
 
     x = CSI[:, 0]
     y = CSI[:, 1]
@@ -194,9 +195,9 @@ if __name__ == '__main__':
     array_csi_modulus0 = normalize(csi_array0)
     array_csi_modulus1 = normalize(csi_array1)
     array_csi_modulus2 = normalize(csi_array2)
-    CSI0 = decomp(array_csi_modulus0)
-    CSI1 = decomp(array_csi_modulus1)
-    CSI2 = decomp(array_csi_modulus2)
+    CSI0 = decompose(array_csi_modulus0, 3)
+    CSI1 = decompose(array_csi_modulus1, 3)
+    CSI2 = decompose(array_csi_modulus2, 3)
 
     fig = plt.figure()
     ax = Axes3D(fig)
